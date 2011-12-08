@@ -17,6 +17,9 @@ if( ! defined( 'ABSPATH' ) ) exit;
  * attribute called Length. The value of the custom attribute can be 
  * anything that strtotime() can handdle.
  * 
+ * If an order has a total of 0, then access is given as soon as status
+ * is set to on-hold, otherwise on completed status only.
+ * 
  * The Length attribute should probably be hidden, so language translations
  * won't matter.
  * 
@@ -30,7 +33,21 @@ if( ! defined( 'ABSPATH' ) ) exit;
  */
 function jigomem_add_membership( $order_id )
 {
+	$hook = current_filter();
+	
+	$continue = false;
+
 	$order = &new jigoshop_order( $order_id );
+	
+	if( $order->order_total > 0 && $hook == 'order_status_completed' )
+		$continue = true;
+
+	elseif( $order->order_total <= 0 && $hook == 'order_status_on-hold' )
+		$continue = true;
+		
+	// check our continue flag
+	if( ! $continue )
+		return false;
 	
 	// no point in going forward if we don't have an order
 	if( ! $order->id )
@@ -61,6 +78,7 @@ function jigomem_add_membership( $order_id )
 	update_user_meta( $order->user_id, 'jigomem_membership', strtotime( '+'. $length ) );
 }
 add_action( 'order_status_completed', 'jigomem_add_membership' );
+add_action( 'order_status_on-hold',   'jigomem_add_membership' );
 
 /**
  * Check if a user is entitled to support

@@ -4,7 +4,7 @@
  * Plugin URI:  https://github.com/Themekraft/BP-Shop-Integration
  * Description: Transforms a type of product into a membership option
  * Author:      BP Shop Dev Team
- * Version:     1.0
+ * Version:     1.0.1
  * Author URI:  https://github.com/Themekraft/BP-Shop-Integration
  * Network:     true
  * 
@@ -35,7 +35,7 @@ class JIGOMEM_Loader
 	/**
 	 * The plugin version
 	 */
-	const VERSION 	= '1.0';
+	const VERSION 	= '1.0.1';
 	
 	/**
 	 * Minimum required WP version

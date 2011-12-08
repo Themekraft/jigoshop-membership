@@ -1,2 +1,5 @@
+= v1.0.1 =
+*Access is given straight away if order total is 0
+
 = v1.0 =
 *initial release
