@@ -1,5 +1,7 @@
 = v1.0.1 =
-*Access is given straight away if order total is 0
+*Added language files (English, German)
+*Minimum Jigoshop version bumped to 0.9.9.3
+*Access is given straight away if order total is 0 and status set to processing
 
 = v1.0 =
 *initial release

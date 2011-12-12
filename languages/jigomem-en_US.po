@@ -1,0 +1,68 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Jigoshop Membership\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-12-12 13:25+0530\n"
+"PO-Revision-Date: 2011-12-12 13:25+0530\n"
+"Last-Translator: Boris Glumpler <boris@shabushabu.eu>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-KeywordsList: _e;__;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+
+#: ../jigomem-loader.php:177
+#, php-format
+msgid "Jigoshop Membership works only under PHP %s or higher. Please ask your hosting company for support!"
+msgstr ""
+
+#: ../jigomem-loader.php:178
+#, php-format
+msgid "Jigoshop Membership works only under WordPress %s or higher. <a href=\"%s\">Upgrade now</a>!"
+msgstr ""
+
+#: ../jigomem-loader.php:179
+#, php-format
+msgid "Jigoshop Membership works only under Jigoshop %s or higher. <a href=\"%s\">Upgrade now</a>!"
+msgstr ""
+
+#: ../jigomem-loader.php:180
+#, php-format
+msgid "Jigoshop Membership needs Jigoshop to be installed. <a href=\"%s\">Download it now</a>!"
+msgstr ""
+
+#: ../jigomem-loader.php:181
+#, php-format
+msgid "Jigoshop Membership needs BuddyPress to be installed. <a href=\"%s\">Download it now</a>!"
+msgstr ""
+
+#: ../jigomem-loader.php:182
+#, php-format
+msgid "Jigoshop Membership works only under BuddyPress %s or higher. <a href=\"%s\">Upgrade now</a>!"
+msgstr ""
+
+#: ../core/jigomem-admin.php:25
+msgid "Membership"
+msgstr ""
+
+#: ../core/jigomem-admin.php:48
+#, php-format
+msgid "Until %s"
+msgstr ""
+
+#: ../core/jigomem-admin.php:51
+#, php-format
+msgid "Ended %s"
+msgstr ""
+
+#: ../core/jigomem-admin.php:53
+msgid "No"
+msgstr ""
+

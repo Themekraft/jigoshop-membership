@@ -1,11 +1,13 @@
 <?php
 /**
  * Plugin Name: Jigoshop Membership
- * Plugin URI:  https://github.com/Themekraft/BP-Shop-Integration
+ * Plugin URI:  https://github.com/Themekraft/jigoshop-membership
  * Description: Transforms a type of product into a membership option
  * Author:      BP Shop Dev Team
  * Version:     1.0.1
- * Author URI:  https://github.com/Themekraft/BP-Shop-Integration
+ * Author URI:  https://github.com/Themekraft/jigoshop-membership
+ * Text Domain: jigomem
+ * Domain Path: /languages/
  * Network:     true
  * 
  *****************************************************************************
@@ -50,7 +52,7 @@ class JIGOMEM_Loader
 	/**
 	 * Minimum required Jigoshop version
 	 */
-	const MIN_JIGO 	= '0.9.9';
+	const MIN_JIGO 	= '0.9.9.3';
 		
 	/**
 	 * Minimum required PHP version
@@ -81,7 +83,8 @@ class JIGOMEM_Loader
 
 		self::constants();
 		
-		add_action( 'plugins_loaded', 	array( __CLASS__, 'check_requirements' ), 10 );
+		add_action( 'plugins_loaded', 	array( __CLASS__, 'translate' 		   ), 10 );
+		add_action( 'plugins_loaded', 	array( __CLASS__, 'check_requirements' ), 11 );
 		add_action( 'plugins_loaded', 	array( __CLASS__, 'start' 			   ), 12 );
 	}
 
@@ -124,44 +127,76 @@ class JIGOMEM_Loader
 		// BuddyPress checks
 		if( ! defined( 'BP_VERSION' ) )
 		{
-			add_action( 'admin_notices', create_function( '', 'printf(\'<div id="message" class="error"><p><strong>\' . __(\'Jigoshop Membership needs BuddyPress to be installed. <a href="%s">Download it now</a>!\', "jigomem" ) . \'</strong></p></div>\', admin_url("plugin-install.php") );' ) );
+			add_action( 'admin_notices', create_function( '', 'printf(\'<div id="message" class="error"><p><strong>\' . JIGOMEM_Loader::messages("bp") . \'</strong></p></div>\', admin_url("plugin-install.php") );' ) );
 			$error = true;
 		}
 		elseif( version_compare( BP_VERSION, self::MIN_BP, '>=' ) == false )
 		{
-			add_action( 'admin_notices', create_function( '', 'printf(\'<div id="message" class="error"><p><strong>\' . __(\'Jigoshop Membership works only under BuddyPress %s or higher. <a href="%s">Upgrade now</a>!\', "jigomem" ) . \'</strong></p></div>\', JIGOMEM_Loader::MIN_BP, admin_url("update-core.php") );' ) );
+			add_action( 'admin_notices', create_function( '', 'printf(\'<div id="message" class="error"><p><strong>\' . JIGOMEM_Loader::messages("min_bp") . \'</strong></p></div>\', JIGOMEM_Loader::MIN_BP, admin_url("update-core.php") );' ) );
 			$error = true;
 		}
 		
 		// Jigoshop checks
 		if( ! defined( 'JIGOSHOP_VERSION' ) )
 		{
-			add_action( 'admin_notices', create_function( '', 'printf(\'<div id="message" class="error"><p><strong>\' . __(\'Jigoshop Membership needs Jigoshop to be installed. <a href="%s">Download it now</a>!\', "jigomem" ) . \'</strong></p></div>\', admin_url("plugin-install.php") );' ) );
+			add_action( 'admin_notices', create_function( '', 'printf(\'<div id="message" class="error"><p><strong>\' . JIGOMEM_Loader::messages("jigo") . \'</strong></p></div>\', admin_url("plugin-install.php") );' ) );
 			$error = true;
 		}		
 		elseif( version_compare( JIGOSHOP_VERSION, self::MIN_JIGO, '>=' ) == false )
 		{
-			add_action( 'admin_notices', create_function( '', 'printf(\'<div id="message" class="error"><p><strong>\' . __(\'Jigoshop Membership works only under Jigoshop %s or higher. <a href="%s">Upgrade now</a>!\', "jigomem" ) . \'</strong></p></div>\', JIGOMEM_Loader::MIN_JIGO, admin_url("update-core.php") );' ) );
+			add_action( 'admin_notices', create_function( '', 'printf(\'<div id="message" class="error"><p><strong>\' . JIGOMEM_Loader::messages("min_jigo") . \'</strong></p></div>\', JIGOMEM_Loader::MIN_JIGO, admin_url("update-core.php") );' ) );
 			$error = true;
 		}
 		
 		// WordPress check
 		if( version_compare( $wp_version, self::MIN_WP, '>=' ) == false )
 		{
-			add_action( 'admin_notices', create_function( '', 'printf(\'<div id="message" class="error"><p><strong>\' . __(\'Jigoshop Membership works only under WordPress %s or higher. <a href="%s">Upgrade now</a>!\', "jigomem" ) . \'</strong></p></div>\', JIGOMEM_Loader::MIN_WP, admin_url("update-core.php") );' ) );
+			add_action( 'admin_notices', create_function( '', 'printf(\'<div id="message" class="error"><p><strong>\' . JIGOMEM_Loader::messages("min_wp") . \'</strong></p></div>\', JIGOMEM_Loader::MIN_WP, admin_url("update-core.php") );' ) );
 			$error = true;
 		}
 		
 		// PHP check
 		if( version_compare( PHP_VERSION, self::MIN_PHP, '>=' ) == false )
 		{
-			add_action( 'admin_notices', create_function( '', 'printf(\'<div id="message" class="error"><p><strong>\' . __(\'BP Shop works only under PHP %s or higher. Please ask your hosting company for support!\', "jigomem" ) . \'</strong></p></div>\', JIGOMEM_Loader::MIN_PHP );' ) );
+			add_action( 'admin_notices', create_function( '', 'printf(\'<div id="message" class="error"><p><strong>\' . JIGOMEM_Loader::messages("min_php") . \'</strong></p></div>\', JIGOMEM_Loader::MIN_PHP );' ) );
 			$error = true;
 		}
-		
+
 		self::$active = ( ! $error ) ? true : false;
 	}
+
+	/**
+	 * Holds all error messages
+	 * 
+	 * @since 	1.0.1
+	 * @access	public
+	 */
+	public static function messages( $key )
+	{
+		$messages = array(
+			'min_php'  => __( 'Jigoshop Membership works only under PHP %s or higher. Please ask your hosting company for support!', 'jigomem' ),
+			'min_wp'   => __( 'Jigoshop Membership works only under WordPress %s or higher. <a href="%s">Upgrade now</a>!', 'jigomem' ),
+			'min_jigo' => __( 'Jigoshop Membership works only under Jigoshop %s or higher. <a href="%s">Upgrade now</a>!', 'jigomem' ),
+			'jigo'	   => __( 'Jigoshop Membership needs Jigoshop to be installed. <a href="%s">Download it now</a>!', 'jigomem' ),
+			'bp'  	   => __( 'Jigoshop Membership needs BuddyPress to be installed. <a href="%s">Download it now</a>!', 'jigomem' ),
+			'min_bp'   => __( 'Jigoshop Membership works only under BuddyPress %s or higher. <a href="%s">Upgrade now</a>!', 'jigomem' )
+		);
 		
+		return $messages[$key];
+	}
+
+	/**
+	 * Load the languages
+	 * 
+	 * @since 	1.0.1
+	 * @access	public
+	 * @uses 	load_plugin_textdomain()
+	 */
+	public function translate()
+	{
+		load_plugin_textdomain( 'jigomem', false, dirname( self::$plugin_name ) . '/languages/' );
+	}
+	
 	/**
 	 * Declare all constants
 	 * 
