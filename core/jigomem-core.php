@@ -75,6 +75,11 @@ function jigomem_add_membership( $order_id )
 	// only proceed if the current product has a custom length attribute
 	if( ! $has_length || ! $length )
 		return false;
+
+	if(is_array($length)):
+		$term = get_term_by('slug', $order->_data['items'][0]['variation']['tax_length'], 'pa_length');		
+		$length = $term->name;
+	endif;
 	
 	update_user_meta( $order->user_id, 'jigomem_membership', strtotime( '+'. $length ) );
 }
